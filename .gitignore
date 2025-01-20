@@ -1,3 +1,7 @@
 .idea
 .venv
+<<<<<<< HEAD
 utilities/__pycache__/
+=======
+utilities/__pycache__
+>>>>>>> hw_5
