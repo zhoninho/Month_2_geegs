@@ -1,11 +1,11 @@
 from random import randint
-
-def play_game(start_capital, attempts, number1, number2):
+def guess_the_number(start_capital, attempts, number1, number2):
     capital = start_capital
     secret_number = randint(number1, number2)
     print("Добро пожаловать в игру 'Угадай число'")
     print(f"У вас {capital} монет. У вас {attempts} попыток, чтобы угадать число от {number1} до {number2}")
-    for attempt in range(1, attempts + 1):
+    attempt = 1
+    while attempt <= attempts or capital <= 0:
         print(f"\nПопытка {attempt} из {attempts}")
         try:
             bet = int(input("Введите вашу ставку: "))
@@ -14,24 +14,30 @@ def play_game(start_capital, attempts, number1, number2):
                 continue
 
             guess = int(input(f"Угадайте число: "))
+            if guess < number1 or guess > number2:
+                print(f"Число должно быть от {number1} до {number2}. Попробуйте снова")
+                continue
 
             if guess == secret_number:
                 winnings = bet * 2
                 capital += winnings
-                print(f"Поздравляем! Вы угадали число {secret_number}. Вы выиграли {winnings} монет")
+                print(f"Поздравляем! Вы выиграли {winnings} монет")
                 break
             else:
                 capital -= bet
                 print(f"Неверно! Загаданное число { 'меньше' if guess > secret_number else 'больше' } {guess}")
 
             if capital <= 0:
-                print(f"У вас закончились монеты. Игра окончена. Загаданное число было: {secret_number}")
+                print(f"У вас закончились монеты")
                 break
             elif attempt == attempts:
-                print(f"Игра окончена! Загаданное число было: {secret_number}")
-                break
+                print(f"У вас закончились попытки")
+
             print(f"Ваш текущий капитал: {capital} монет.")
         except ValueError:
             print("Пожалуйста, вводите только числа.")
+        attempt += 1
+    else:
+        print(f"Игра окончена! Загаданное число было: {secret_number}")
 
     print(f"Ваш итоговый капитал: {capital} монет. Спасибо за игру!")
